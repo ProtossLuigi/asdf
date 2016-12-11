@@ -31,7 +31,7 @@ public class Floor {
 	public int getwidth(){
 		return this.width;
 	}
-	public Tile gettile(int x, int y){
+	public Tile getTile(int x, int y){
 		return layout[x][y];
 	}
 }
