@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 public enum TileType {
 	
 	ground(true,false),
-	stone(false,false);
+	stone(false,false),
+	chest(false,true);
 	
 	boolean walkable;
 	boolean interactable;
