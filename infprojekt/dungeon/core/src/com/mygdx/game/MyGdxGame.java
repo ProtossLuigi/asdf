@@ -88,13 +88,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 	
 	private void movePlayer(){
+		if(canMove(movingX) == false)
+			movingX = Direction.NULL;
+		if(canMove(movingY) == false)
+			movingY = Direction.NULL;
 		switch(movingX){
 		case LEFT:
 			switch(movingY){
 			case UP:
 				playerx-=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
-				if(playery != 0 || level.getTile(player.coordx, player.coordy+1).getWalkable())
-					playery+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
+				playery+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
 				break;
 			case DOWN:
 				playerx-=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
@@ -108,27 +111,22 @@ public class MyGdxGame extends ApplicationAdapter {
 		case RIGHT:
 			switch(movingY){
 			case UP:
-				if(playerx != 0 || level.getTile(player.coordx+1, player.coordy).getWalkable())
-					playerx+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
-				if(playery != 0 || level.getTile(player.coordx, player.coordy+1).getWalkable())
-					playery+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
+				playerx+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
+				playery+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
 				break;
 			case DOWN:
-				if(playerx != 0 || level.getTile(player.coordx+1, player.coordy).getWalkable())
-					playerx+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
+				playerx+=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
 				playery-=playerSpeed*Gdx.graphics.getDeltaTime()*0.7071f;
 				break;
 			default:
-				if(playerx != 0 || level.getTile(player.coordx+1, player.coordy).getWalkable())
-					playerx+=playerSpeed*Gdx.graphics.getDeltaTime();
+				playerx+=playerSpeed*Gdx.graphics.getDeltaTime();
 				break;
 			}
 			break;
 		default:
 			switch(movingY){
 			case UP:
-				if(playery != 0 || level.getTile(player.coordx, player.coordy+1).getWalkable())
-					playery+=playerSpeed*Gdx.graphics.getDeltaTime();
+				playery+=playerSpeed*Gdx.graphics.getDeltaTime();
 				break;
 			case DOWN:
 				playery-=playerSpeed*Gdx.graphics.getDeltaTime();
@@ -140,7 +138,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		
 		if(playerx < 0){
-			if(level.getTile(player.coordx-1, player.coordy).getWalkable()){
+			if(level.getTile(player.coordx-1, player.coordy).getWalkable() && (playery == 0 || level.getTile(player.coordx-1, player.coordy+1).getWalkable())){
 				player.coordx--;
 				playerx+=tilesize;
 			}
@@ -150,7 +148,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		if(playerx >= tilesize){
 			player.coordx++;
-			if(level.getTile(player.coordx+1, player.coordy).getWalkable()){
+			if(level.getTile(player.coordx+1, player.coordy).getWalkable() && (playerx == 0 || level.getTile(player.coordx+1, player.coordy+1).getWalkable())){
 				playerx-=tilesize;
 			}
 			else{
@@ -158,7 +156,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 		if(playery < 0){
-			if(level.getTile(player.coordx, player.coordy-1).getWalkable()){
+			if(level.getTile(player.coordx, player.coordy-1).getWalkable() && (playerx == 0 || level.getTile(player.coordx+1, player.coordy-1).getWalkable())){
 				player.coordy--;
 				playery+=tilesize;
 			}
@@ -168,7 +166,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		if(playery >= tilesize){
 			player.coordy++;
-			if(level.getTile(player.coordx, player.coordy+1).getWalkable()){
+			if(level.getTile(player.coordx, player.coordy+1).getWalkable() && (playerx == 0 || level.getTile(player.coordx+1, player.coordy+1).getWalkable())){
 				playery-=tilesize;
 			}
 			else{
@@ -177,6 +175,49 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		movingX = Direction.NULL;
 		movingY = Direction.NULL;
+	}
+	
+	private boolean canMove(Direction way){
+		switch(way){
+		case UP:
+			if(playery == 0){
+				if(playerx > 0)
+					return (level.getTile(player.coordx, player.coordy+1).getWalkable() && level.getTile(player.coordx+1, player.coordy+1).getWalkable());
+				else
+					return level.getTile(player.coordx, player.coordy+1).getWalkable();
+			}
+			else
+				return true;
+		case DOWN:
+			if(playery == 0){
+				if(playerx > 0)
+					return (level.getTile(player.coordx, player.coordy-1).getWalkable() && level.getTile(player.coordx+1, player.coordy-1).getWalkable());
+				else
+					return level.getTile(player.coordx, player.coordy-1).getWalkable();
+			}
+			else
+				return true;
+		case LEFT:
+			if(playerx == 0){
+				if(playery > 0)
+					return level.getTile(player.coordx-1, player.coordy).getWalkable() && level.getTile(player.coordx-1, player.coordy+1).getWalkable();
+				else
+					return level.getTile(player.coordx-1, player.coordy).getWalkable();
+			}
+			else
+				return true;
+		case RIGHT:
+			if(playerx == 0){
+				if(playery > 0)
+					return level.getTile(player.coordx+1, player.coordy).getWalkable() && level.getTile(player.coordx+1, player.coordy+1).getWalkable();
+				else
+					return level.getTile(player.coordx+1, player.coordy).getWalkable();
+			}
+			else
+				return true;
+		default:
+			return true;
+		}
 	}
 	
 	private void camUpdate(){

@@ -24,6 +24,7 @@ public class Floor {
 				}
 			}
 		}
+		layout[10][8] = new Tile(TileType.chest);
 	}
 	public int getheight(){
 		return this.height;
