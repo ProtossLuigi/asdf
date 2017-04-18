@@ -42,6 +42,25 @@ public class Textbox1 {
 				}
 			}
 			break;
+		case COMBAT:
+			if(y == 0){
+				x = (Gdx.graphics.getWidth()-32)/2;
+				y = Gdx.graphics.getHeight()/5;
+			}
+			if(y > Gdx.graphics.getHeight()/20){
+				y -= Gdx.graphics.getHeight()*Gdx.graphics.getDeltaTime();
+				if(y < Gdx.graphics.getHeight()/20)
+					y = Gdx.graphics.getHeight()/20;
+			}
+			if(y == Gdx.graphics.getHeight()/20 && x > Gdx.graphics.getWidth()/32){
+				x -= ((Gdx.graphics.getWidth()-32)/2-Gdx.graphics.getWidth()/32)*Gdx.graphics.getDeltaTime()*4;
+				if(x <= Gdx.graphics.getWidth()/32){
+					x = Gdx.graphics.getWidth()/32;
+					currentState = mode;
+					ready = true;
+				}
+			}
+			break;
 		default:
 			throw new IllegalStateException();
 		}

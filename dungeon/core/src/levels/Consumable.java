@@ -1,10 +1,27 @@
 package levels;
 
-public class Consumable extends Item {
+import java.util.ArrayList;
+import java.util.List;
 
-	public Consumable(String name) {
-		super(name);
-		// TODO Auto-generated constructor stub
+public abstract class Consumable extends Item {
+	
+	int damage;
+	int healing;
+	List<AbilityEffect> effects;
+
+	public Consumable() {
+		effects = new ArrayList<AbilityEffect>();
 	}
-
+	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public int getHealing() {
+		return healing;
+	}
+	
+	public List<AbilityEffect> getEffects() {
+		return effects;
+	}
 }

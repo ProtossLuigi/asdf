@@ -24,21 +24,8 @@ public class Floor {
 				}
 			}
 		}
-		layout[10][8] = new Tile(TileType.chest);
-		layout[10][8].addItem(new Consumable("aaa"));
-		layout[10][8].addItem(new Consumable("aab"));
-		layout[10][8].addItem(new Consumable("adgffg"));
-		layout[10][8].addItem(new Consumable("shit"));
-		layout[10][8].addItem(new Consumable("aadsf"));
-		layout[10][8].addItem(new Consumable("aa"));
-		layout[10][8].addItem(new Consumable("rytaa"));
-		layout[10][8].addItem(new Consumable("aaetg"));
-		layout[10][8].addItem(new Consumable("aaa"));
-		layout[10][8].addItem(new Consumable("asa"));
-		layout[10][8].addItem(new Consumable("ada"));
-		layout[10][8].addItem(new Consumable("aar"));
-		layout[10][8].addItem(new Consumable("afdhga"));
-		layout[10][8].addItem(new Consumable("aar"));
+		layout[4][5] = new Tile(TileType.chest);
+		layout[4][5].addItem(new Grenade());
 	}
 	public int getheight(){
 		return this.height;

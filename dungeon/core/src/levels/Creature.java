@@ -8,18 +8,39 @@ public abstract class Creature {
 	protected int armor;
 	protected int attackdmg;
 	
-	public boolean damage(int dmg){
-		dmg-=armor;
-		hp-=dmg;
-		if(hp <= 0)
-			return false;
-		else
-			return true;
+	public Creature(){
+		baseArmor = 0;
+		maxhp = 10;
+		hp = maxhp;
+		attackdmg = 1;
 	}
 	
-	public void heal(int heal){
-		hp+=heal;
-		if(hp > maxhp)
+	public int damage(int dmg){
+		dmg-=armor;
+		hp-=dmg;
+		return dmg;
+	}
+	
+	public int heal(int heal){
+		if(hp+heal > maxhp){
 			hp = maxhp;
+			return maxhp-hp;
+		}
+		else{
+			hp+=heal;
+			return heal;
+		}
+	}
+	
+	public int getHP(){
+		return hp;
+	}
+	
+	public int getMaxHP(){
+		return maxhp;
+	}
+	
+	public int getAttackdmg() {
+		return attackdmg;
 	}
 }
